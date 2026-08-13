@@ -14,10 +14,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure Python tool cache
+      - name: Debug runner environment
         run: |
-          echo "RUNNER_TOOL_CACHE=$RUNNER_TEMP/_toolcache" >> "$GITHUB_ENV"
-          mkdir -p "$RUNNER_TEMP/_toolcache"
+          echo "===== ENVIRONMENT ====="
+          echo "HOME=$HOME"
+          echo "RUNNER_TOOL_CACHE=$RUNNER_TOOL_CACHE"
+          echo "RUNNER_TEMP=$RUNNER_TEMP"
+          echo "RUNNER_WORKSPACE=$RUNNER_WORKSPACE"
+          echo "RUNNER_ROOT=$RUNNER_ROOT"
+
+          echo "===== RUNNER VARIABLES ====="
+          env | grep '^RUNNER_' | sort
 
       - name: Setup Python
         uses: actions/setup-python@v5
