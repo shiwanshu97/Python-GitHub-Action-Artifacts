@@ -14,31 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug runner environment
+      - name: Check Python
         run: |
-          echo "===== ENVIRONMENT ====="
-          echo "HOME=$HOME"
-          echo "RUNNER_TOOL_CACHE=$RUNNER_TOOL_CACHE"
-          echo "RUNNER_TEMP=$RUNNER_TEMP"
-          echo "RUNNER_WORKSPACE=$RUNNER_WORKSPACE"
-          echo "RUNNER_ROOT=$RUNNER_ROOT"
-
-          echo "===== RUNNER VARIABLES ====="
-          env | grep '^RUNNER_' | sort
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Show Python version
-        run: python --version
+          echo "Python location:"
+          which python3
+          echo "Python version:"
+          python3 --version
 
       - name: Run Python program
-        run: python app.py
+        run: |
+          python3 app.py
 
       - name: Show generated file
-        run: cat result.txt
+        run: |
+          cat result.txt
 
       - name: Upload result as artifact
         uses: actions/upload-artifact@v4
