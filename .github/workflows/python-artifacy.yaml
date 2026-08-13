@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   Create-Artifact:
@@ -15,10 +14,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure Python tool cache
+        run: |
+          echo "RUNNER_TOOL_CACHE=$RUNNER_TEMP/_toolcache" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/_toolcache"
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Show Python version
+        run: python --version
 
       - name: Run Python program
         run: python app.py
@@ -26,7 +33,7 @@ jobs:
       - name: Show generated file
         run: cat result.txt
 
-      - name: upload result as artifact
+      - name: Upload result as artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-result-file
